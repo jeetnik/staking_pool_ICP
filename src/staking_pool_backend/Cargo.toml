@@ -10,5 +10,14 @@ crate-type = ["cdylib"]
 
 [dependencies]
 candid = "0.10"
-ic-cdk = "0.17"
-ic-cdk-timers = "0.11" # Feel free to remove this dependency if you don't need timers
+ic-cdk = "0.12"
+ic-cdk-timers = "0.7"
+serde = { version = "1.0", features = ["derive"] }
+ic-ledger-types = "0.9"
+ic-cdk-macros = "0.9"
+ic-stable-structures = "0.6.9"
+
+[dev-dependencies]
+pocket-ic      = "9"
+candid_parser = "0.1"
+tokio = { version = "1.35", features = ["full"] }

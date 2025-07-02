@@ -1,3 +1,55 @@
+type LockPeriod = variant {
+  Days90;
+  Days180;
+  Days360;
+};
+
+type DepositArgs = record {
+  amount: nat64;
+  lock_period: LockPeriod;
+};
+
+type WithdrawArgs = record {
+  deposit_index: nat;
+};
+
+type Deposit = record {
+  amount: nat64;
+  deposit_time: nat64;
+  lock_period: nat64;
+  subaccount: blob;
+};
+
+type StakingError = variant {
+  InsufficientFunds;
+  DepositNotFound;
+  LockPeriodNotExpired;
+  TransferFailed: text;
+  InvalidAmount;
+  Unauthorized;
+};
+
+type Result = variant {
+  Ok: blob;
+  Err: StakingError;
+};
+
+type Result_1 = variant {
+  Ok: nat64;
+  Err: StakingError;
+};
+
+type Result_2 = variant {
+  Ok;
+  Err: StakingError;
+};
+
 service : {
-    "greet": (text) -> (text) query;
+  "deposit": (DepositArgs) -> (Result);
+  "withdraw": (WithdrawArgs) -> (Result_1);
+  "reward_pool": (nat64) -> (Result_2);
+  "slash_pool": (nat64, principal) -> (Result_1);
+  "get_deposits": (principal) -> (vec Deposit) query;
+  "get_total_staked": () -> (nat64) query;
+  "get_deposit_address": (blob) -> (text) query;
 }
