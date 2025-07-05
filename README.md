@@ -21,41 +21,96 @@ dfx help
 dfx canister --help
 ```
 
+
 ## Running the project locally
 
 If you want to test your project locally, you can use the following commands:
 
 ```bash
-# Starts the replica, running in the background
-dfx start --background
+# Build the canister
+cargo build --target wasm32-unknown-unknown --release  
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
+ # Run tests
+cargo test -p staking_pool_backend --test integration_tests
 ```
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
-
-If you have made changes to your backend canister, you can generate a new candid interface with
-
+The output will be shown like this
 ```bash
-npm run generate
+
+saijeetnikam@qwerty-2 staking_pool % cargo test -p staking_pool_backend --test integration_tests      
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.54s
+     Running tests/integration_tests.rs (target/debug/deps/integration_tests-3a591f9b32566af9)
+
+running 25 tests
+2025-07-05T13:52:53.424617Z  INFO pocket_ic_server: The PocketIC server is listening on port 57050
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_edge_case_empty_operations ... ok
+test test_cross_user_interference ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_complete_user_journey ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_cleanup_expired_deposits ... ok
+test test_create_deposit_intention ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_confirm_deposit_without_funds ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_different_lock_periods ... ok
+test test_cleanup_performance ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_expired_deposit_intention ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_get_reward_address ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_input_boundary_conditions ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_invalid_operations ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_multiple_deposits_same_user ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_query_functions_edge_cases ... ok
+test test_multiple_users_operations ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_repeated_cleanup_calls ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_reward_address_consistency ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_reward_distribution_edge_cases ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_reward_pool_empty ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_slash_pool_comprehensive ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_slash_pool_empty ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_slash_pool_receiver_scenarios ... ok
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+2021-05-06 19:17:10.000000003 UTC: [Canister lxzze-o7777-77777-aaaaa-cai] Staking pool canister initialized
+test test_time_manipulation_scenarios ... ok
+test test_unauthorized_confirm_deposit ... ok
+test test_stress_subaccount_generation ... ok
+
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 22.57s
+
+
+
+
+
+
 ```
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
 
-If you are making frontend changes, you can start a development server with
+Snapshot of the the test
 
-```bash
-npm start
-```
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
+<img width="1000" alt="Screenshot 2025-07-05 at 19 42 18" src="https://github.com/user-attachments/assets/71556b85-55fb-41db-978c-c243b48b7240" />
 
-### Note on frontend environment variables
 
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
 
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+
+
